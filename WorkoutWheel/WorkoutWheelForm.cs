@@ -40,15 +40,39 @@ namespace WorkoutWheel
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void buttonRemove_Click(object sender, EventArgs e)
         {
-            SaveWorkouts();
+            if (!String.IsNullOrEmpty(textBoxWorkout.Text))
+            {
+                if (!LoadWorkouts()) return;
+                string enteredWorkouts = textBoxWorkout.Text;
+                string[] workoutsToRemove = enteredWorkouts.Split(',');
+                foreach (string workout in workoutsToRemove)
+                {
+                    _workouts.Remove(workout);
+                }
+                textBoxWorkout.Clear();
+                StringBuilder sb = new StringBuilder();
+                foreach (var workout in _workouts)
+                    sb.Append(workout + "\n");
+                File.WriteAllText(_filePath, sb.ToString());
+            }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            _workouts.Add(textBoxWorkout.Text);
-            textBoxWorkout.Clear();
+            if (!String.IsNullOrEmpty(textBoxWorkout.Text))
+            {
+                string enteredWorkouts = textBoxWorkout.Text;
+                string[] workoutsToAdd = enteredWorkouts.Split(',');
+                foreach (string workout in workoutsToAdd)
+                {
+                    _workouts.Add(workout);
+                }
+                textBoxWorkout.Clear();
+                SaveWorkouts();
+            }
+            
         }
 
         private void timerRotation_Tick(object sender, EventArgs e)

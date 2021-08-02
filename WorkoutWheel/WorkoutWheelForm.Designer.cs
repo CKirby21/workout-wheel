@@ -32,12 +32,13 @@ namespace WorkoutWheel
             this.components = new System.ComponentModel.Container();
             this.buttonSpin = new System.Windows.Forms.Button();
             this.timerRotation = new System.Windows.Forms.Timer(this.components);
-            this.circlePictureBox1 = new WorkoutWheel.CirclePictureBox();
             this.textBoxWorkout = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonAdd = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
             this.labelResult = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.circlePictureBox1 = new WorkoutWheel.CirclePictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.circlePictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,22 +57,11 @@ namespace WorkoutWheel
             // 
             this.timerRotation.Tick += new System.EventHandler(this.timerRotation_Tick);
             // 
-            // circlePictureBox1
-            // 
-            this.circlePictureBox1.BackColor = System.Drawing.Color.DarkGray;
-            this.circlePictureBox1.ImageLocation = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Eight-colour-wheel-2D.p" +
-    "ng/769px-Eight-colour-wheel-2D.png";
-            this.circlePictureBox1.Location = new System.Drawing.Point(173, 6);
-            this.circlePictureBox1.Name = "circlePictureBox1";
-            this.circlePictureBox1.Size = new System.Drawing.Size(764, 764);
-            this.circlePictureBox1.TabIndex = 0;
-            this.circlePictureBox1.TabStop = false;
-            // 
             // textBoxWorkout
             // 
             this.textBoxWorkout.Location = new System.Drawing.Point(17, 41);
             this.textBoxWorkout.Name = "textBoxWorkout";
-            this.textBoxWorkout.Size = new System.Drawing.Size(165, 20);
+            this.textBoxWorkout.Size = new System.Drawing.Size(237, 20);
             this.textBoxWorkout.TabIndex = 2;
             // 
             // label1
@@ -80,31 +70,33 @@ namespace WorkoutWheel
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 25);
+            this.label1.Size = new System.Drawing.Size(180, 25);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Enter Workout:";
+            this.label1.Text = "Enter Workout(s):";
             // 
             // buttonAdd
             // 
             this.buttonAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonAdd.Location = new System.Drawing.Point(18, 67);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(83, 53);
+            this.buttonAdd.Size = new System.Drawing.Size(111, 53);
             this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "Add";
+            this.toolTip.SetToolTip(this.buttonAdd, "Add one or multiple workouts seperated by commas.");
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // buttonSave
+            // buttonRemove
             // 
-            this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSave.Location = new System.Drawing.Point(106, 67);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(76, 53);
-            this.buttonSave.TabIndex = 1;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRemove.Location = new System.Drawing.Point(135, 67);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(119, 53);
+            this.buttonRemove.TabIndex = 1;
+            this.buttonRemove.Text = "Remove";
+            this.toolTip.SetToolTip(this.buttonRemove, "Remove one or multiple workouts seperated by commas.");
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // labelResult
             // 
@@ -116,6 +108,17 @@ namespace WorkoutWheel
             this.labelResult.TabIndex = 4;
             this.labelResult.Visible = false;
             // 
+            // circlePictureBox1
+            // 
+            this.circlePictureBox1.BackColor = System.Drawing.Color.DarkGray;
+            this.circlePictureBox1.ImageLocation = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Eight-colour-wheel-2D.p" +
+    "ng/769px-Eight-colour-wheel-2D.png";
+            this.circlePictureBox1.Location = new System.Drawing.Point(173, 6);
+            this.circlePictureBox1.Name = "circlePictureBox1";
+            this.circlePictureBox1.Size = new System.Drawing.Size(764, 764);
+            this.circlePictureBox1.TabIndex = 0;
+            this.circlePictureBox1.TabStop = false;
+            // 
             // WorkoutWheelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -125,7 +128,7 @@ namespace WorkoutWheel
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxWorkout);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.buttonSpin);
             this.Controls.Add(this.circlePictureBox1);
             this.Name = "WorkoutWheelForm";
@@ -144,8 +147,9 @@ namespace WorkoutWheel
         private System.Windows.Forms.TextBox textBoxWorkout;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonAdd;
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Label labelResult;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 
