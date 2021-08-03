@@ -20,6 +20,7 @@ namespace WorkoutWheel
         }
 
         private List<string> _workouts = new List<string>();
+        private List<Color> _colors = new List<Color>() { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Gray, Color.Blue, Color.Violet, Color.Purple };
         private string _filePath;
 
         #region Buttons and Timers
@@ -29,6 +30,7 @@ namespace WorkoutWheel
             if (timerRotation.Enabled)
             {
                 labelResult.Text = GetRandomWorkout();
+                labelResult.ForeColor = GetRandomColor();
                 labelResult.Visible = true;
                 timerRotation.Enabled = false;
             }
@@ -133,22 +135,32 @@ namespace WorkoutWheel
                 _workouts = workoutsArray.ToList();
             }
         }
+
         private string BuildWorkoutsCSV()
         {
             StringBuilder sb = new StringBuilder();
             foreach (var workout in _workouts)
+            {
                 sb.Append(workout + ",");
+            }
             return sb.ToString().TrimEnd(',');
         }
+
         private string GetRandomWorkout()
         { 
             int numberOfWorkouts = _workouts.Count;
             if (numberOfWorkouts == 0)
                 return "";
             Random r = new Random();
-            int randomNumber = r.Next(numberOfWorkouts);
-            string randomWorkout = _workouts[randomNumber];
-            return randomWorkout;
+            int randomIndex = r.Next(numberOfWorkouts);
+            return _workouts[randomIndex];
+        }
+
+        private Color GetRandomColor()
+        {
+            Random r = new Random();
+            int randomIndex = r.Next(_colors.Count);
+            return _colors[randomIndex];
         }
         #endregion
 
