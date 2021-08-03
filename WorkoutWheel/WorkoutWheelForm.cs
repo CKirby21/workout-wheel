@@ -23,56 +23,49 @@ namespace WorkoutWheel
         private string _filePath;
 
         #region Buttons and Timers
-        private void buttonSpin_Click(object sender, EventArgs e)
+
+        private void buttonSpinner_Click(object sender, EventArgs e)
         {
             if (timerRotation.Enabled)
             {
                 labelResult.Text = GetRandomWorkout();
                 labelResult.Visible = true;
-                buttonSpin.Text = "Spin!";
                 timerRotation.Enabled = false;
             }
             else
             {
                 if (!LoadWorkouts()) return;
-                buttonSpin.Text = "Stop!";
+                labelResult.Visible = true;
                 timerRotation.Enabled = true;
             }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(textBoxWorkout.Text))
+            if (String.IsNullOrEmpty(textBoxWorkout.Text) || !LoadWorkouts())
+                return;
+            
+            string[] workoutsToRemove = textBoxWorkout.Text.Split(',');
+            foreach (string workout in workoutsToRemove)
             {
-                if (!LoadWorkouts()) return;
-                string enteredWorkouts = textBoxWorkout.Text;
-                string[] workoutsToRemove = enteredWorkouts.Split(',');
-                foreach (string workout in workoutsToRemove)
-                {
-                    _workouts.Remove(workout);
-                }
-                textBoxWorkout.Clear();
-                StringBuilder sb = new StringBuilder();
-                foreach (var workout in _workouts)
-                    sb.Append(workout + "\n");
-                File.WriteAllText(_filePath, sb.ToString());
+                _workouts.Remove(workout);
             }
+            File.WriteAllText(_filePath, BuildWorkoutsCSV());
+            textBoxWorkout.Clear();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(textBoxWorkout.Text))
+            if (String.IsNullOrEmpty(textBoxWorkout.Text))
+                return;
+
+            string[] workoutsToAdd = textBoxWorkout.Text.Split(',');
+            foreach (string workout in workoutsToAdd)
             {
-                string enteredWorkouts = textBoxWorkout.Text;
-                string[] workoutsToAdd = enteredWorkouts.Split(',');
-                foreach (string workout in workoutsToAdd)
-                {
-                    _workouts.Add(workout);
-                }
-                textBoxWorkout.Clear();
-                SaveWorkouts();
+                _workouts.Add(workout);
             }
-            
+            SaveWorkouts();
+            textBoxWorkout.Clear();
         }
 
         private void timerRotation_Tick(object sender, EventArgs e)
@@ -86,7 +79,7 @@ namespace WorkoutWheel
         #region Methods
         private bool LoadWorkouts()
         {
-            if (File.Exists(_filePath))
+            if (!String.IsNullOrEmpty(_filePath))
             {
                 ReadWorkoutsFile(_filePath);
                 return true;
@@ -106,30 +99,12 @@ namespace WorkoutWheel
             }
         }
 
-        private void ReadWorkoutsFile(string path)
-        {
-            string lineIn;
-            _workouts.Clear();
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (StreamReader inputReader = new StreamReader(fs))
-            {
-                while ((lineIn = inputReader.ReadLine()) != null)
-                {
-                    _workouts.Add(lineIn);
-                }
-            }
-        }
-
         private void SaveWorkouts()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (var workout in _workouts)
-                sb.Append(workout + "\n");
-            string workouts = sb.ToString();
-
+            string workoutsCSV = BuildWorkoutsCSV();
             if (File.Exists(_filePath))
             {
-                File.AppendAllText(_filePath, workouts);
+                File.AppendAllText(_filePath, workoutsCSV);
             }
             else
             {
@@ -140,22 +115,43 @@ namespace WorkoutWheel
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     if (File.Exists(saveDialog.FileName))
-                        File.AppendAllText(saveDialog.FileName, workouts);
+                        File.AppendAllText(saveDialog.FileName, workoutsCSV);
                     else
-                        File.WriteAllText(saveDialog.FileName, workouts);
+                        File.WriteAllText(saveDialog.FileName, workoutsCSV);
                     _filePath = saveDialog.FileName;
                 }
             }
         }
 
-        private string GetRandomWorkout()
+        private void ReadWorkoutsFile(string path)
         {
+            _workouts.Clear();
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (StreamReader inputReader = new StreamReader(fs))
+            {
+                string[] workoutsArray = inputReader.ReadLine().Split(',');
+                _workouts = workoutsArray.ToList();
+            }
+        }
+        private string BuildWorkoutsCSV()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var workout in _workouts)
+                sb.Append(workout + ",");
+            return sb.ToString().TrimEnd(',');
+        }
+        private string GetRandomWorkout()
+        { 
             int numberOfWorkouts = _workouts.Count;
+            if (numberOfWorkouts == 0)
+                return "";
             Random r = new Random();
             int randomNumber = r.Next(numberOfWorkouts);
             string randomWorkout = _workouts[randomNumber];
             return randomWorkout;
         }
         #endregion
+
+        
     }
 }
