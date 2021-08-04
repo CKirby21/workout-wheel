@@ -30,6 +30,7 @@ namespace WorkoutWheel
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkoutWheelForm));
             this.timerRotation = new System.Windows.Forms.Timer(this.components);
             this.textBoxWorkout = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,8 +38,8 @@ namespace WorkoutWheel
             this.buttonRemove = new System.Windows.Forms.Button();
             this.labelResult = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.circlePictureBox1 = new WorkoutWheel.CirclePictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.circlePictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,23 +107,13 @@ namespace WorkoutWheel
             this.labelResult.TabIndex = 4;
             this.labelResult.Visible = false;
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 409);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 25);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Result:";
-            // 
             // circlePictureBox1
             // 
             this.circlePictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.circlePictureBox1.BackColor = System.Drawing.Color.LightGray;
+            this.circlePictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("circlePictureBox1.Image")));
             this.circlePictureBox1.ImageLocation = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Eight-colour-wheel-2D.p" +
     "ng/240px-Eight-colour-wheel-2D.png";
             this.circlePictureBox1.Location = new System.Drawing.Point(17, 107);
@@ -134,6 +125,17 @@ namespace WorkoutWheel
             this.circlePictureBox1.TabStop = false;
             this.toolTip.SetToolTip(this.circlePictureBox1, "Click to spin!");
             this.circlePictureBox1.Click += new System.EventHandler(this.buttonSpinner_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 409);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 25);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Result:";
             // 
             // WorkoutWheelForm
             // 
@@ -149,6 +151,7 @@ namespace WorkoutWheel
             this.Controls.Add(this.circlePictureBox1);
             this.MinimumSize = new System.Drawing.Size(345, 482);
             this.Name = "WorkoutWheelForm";
+            this.Text = "Workout Wheel";
             ((System.ComponentModel.ISupportInitialize)(this.circlePictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -20,7 +20,7 @@ namespace WorkoutWheel
         }
 
         private List<string> _workouts = new List<string>();
-        private List<Color> _colors = new List<Color>() { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Gray, Color.Blue, Color.Violet, Color.Purple };
+        private List<Color> _colors = new List<Color>() { Color.Red, Color.Orange, Color.Green, Color.Gray, Color.Blue, Color.Violet, Color.Purple };
         private string _filePath;
 
         #region Buttons and Timers
@@ -128,11 +128,15 @@ namespace WorkoutWheel
         private void ReadWorkoutsFile(string path)
         {
             _workouts.Clear();
+            string lineIn;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (StreamReader inputReader = new StreamReader(fs))
             {
-                string[] workoutsArray = inputReader.ReadLine().Split(',');
-                _workouts = workoutsArray.ToList();
+                if ((lineIn = inputReader.ReadLine()) != null)
+                {
+                    string[] workoutsArray = lineIn.Split(',');
+                    _workouts = workoutsArray.ToList();
+                }  
             }
         }
 
